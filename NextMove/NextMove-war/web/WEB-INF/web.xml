@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>doSignIn</servlet-name>
+        <servlet-class>communicator.doSignIn</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doSignUp</servlet-name>
+        <servlet-class>communicator.doSignUp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doMove</servlet-name>
+        <servlet-class>communicator.doMove</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>doSignIn</servlet-name>
+        <url-pattern>/doSignIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doSignUp</servlet-name>
+        <url-pattern>/doSignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doMove</servlet-name>
+        <url-pattern>/doMove</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
