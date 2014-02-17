@@ -27,10 +27,10 @@ public class Constants {
     public static final String MOVE_STATUS_ACKNOWLEDGE                =   "ACKNOWLEDGED";//Acknowledged by vendor
     public static final String MOVE_STATUS_ACCEPTED                   =   "ACCEPTED";//Accepted by Customer
     public static final String MOVE_STATUS_REJECTED_BY_VENDOR         =   "REJECTEDBYVENDOR";//Rejected by Vendor. Due to some reason.
-      public static final String MOVE_STATUS_REJECTED_BY_CUSTOMER     =   "REJECTEDBYCUSTOMER";
+    public static final String MOVE_STATUS_REJECTED_BY_CUSTOMER       =   "REJECTEDBYCUSTOMER";
     
-    public static final String JSON_MOVE_STATUS                             =   "moveStatus";
-    
+    public static final String JSON_MOVE_STATUS                       =   "moveStatus";
+    public static final String JSON_RESPONSE                          =   "response";
     
     
     
