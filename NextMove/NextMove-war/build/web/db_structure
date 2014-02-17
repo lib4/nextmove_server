@@ -1,0 +1,126 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.6
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Feb 17, 2014 at 04:23 AM
+-- Server version: 5.5.33
+-- PHP Version: 5.5.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `nextmove_db`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `address_db`
+--
+
+CREATE TABLE `address_db` (
+  `addressSeqNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `addressId` varchar(20) NOT NULL,
+  `userId` varchar(40) NOT NULL,
+  `address` varchar(1024) NOT NULL,
+  PRIMARY KEY (`addressSeqNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Store all address history' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bigitems_db`
+--
+
+CREATE TABLE `bigitems_db` (
+  `bigItemSeqNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `bigItemId` varchar(40) NOT NULL,
+  `moveId` varchar(40) NOT NULL,
+  `requiresDisassembly` tinyint(1) NOT NULL,
+  `doesFitInElevator` tinyint(1) NOT NULL,
+  `itemName` varchar(1024) NOT NULL,
+  `itemDescription` varchar(1024) NOT NULL,
+  `itemUrl` varchar(1024) NOT NULL,
+  PRIMARY KEY (`bigItemSeqNum`),
+  UNIQUE KEY `bigItemId` (`bigItemId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `bigitems_db`
+--
+
+INSERT INTO `bigitems_db` (`bigItemSeqNum`, `bigItemId`, `moveId`, `requiresDisassembly`, `doesFitInElevator`, `itemName`, `itemDescription`, `itemUrl`) VALUES
+(1, 'ac326b7d-ea2f-4b5c-b11b-5fde2fd3d538', '6c21e45b-12cc-4d6c-b837-c55c1ea87b5a', 1, 1, 'showCase', 'very old', 'http://localhost:8080/move_image//Applications/NetBeans/glassfish-4.0/glassfish/domains/domain1/docroot/move_image/6c21e45b-12cc-4d6c-b837-c55c1ea87b5a.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `box_type_db`
+--
+
+CREATE TABLE `box_type_db` (
+  `boxTypeId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `boxType` int(1) NOT NULL,
+  `boxDescription` varchar(1024) NOT NULL,
+  PRIMARY KEY (`boxTypeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `moves_db`
+--
+
+CREATE TABLE `moves_db` (
+  `moveSeqNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `moveId` varchar(40) NOT NULL,
+  `smallBoxCount` int(11) NOT NULL,
+  `mediumBoxCount` int(11) NOT NULL,
+  `largeBoxCount` int(11) NOT NULL,
+  `sourceAddress` varchar(1024) NOT NULL,
+  `destinationAddress` varchar(1024) NOT NULL,
+  `isBigItemsPresent` tinyint(1) NOT NULL,
+  `dispatchDate` varchar(50) DEFAULT NULL,
+  `expectedReceiveDate` varchar(50) DEFAULT NULL,
+  `userId` varchar(40) NOT NULL,
+  PRIMARY KEY (`moveSeqNum`),
+  UNIQUE KEY `moveId` (`moveId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `moves_db`
+--
+
+INSERT INTO `moves_db` (`moveSeqNum`, `moveId`, `smallBoxCount`, `mediumBoxCount`, `largeBoxCount`, `sourceAddress`, `destinationAddress`, `isBigItemsPresent`, `dispatchDate`, `expectedReceiveDate`, `userId`) VALUES
+(1, '0328370d-ff8a-42d8-939e-faf7994ae82c', 10, 10, 10, 'Flat No:104,Celebrity', 'Cochin kerala', 0, '10-10-2014', '15-10-2014', '4d1b9d12-fc2b-484e-ad61-853dd03e4762'),
+(2, 'b40c119f-ddda-469b-b4ab-43c8dc863218', 10, 10, 10, 'Flat No:104,Celebrity', 'Cochin kerala', 0, '10-10-2014', '15-10-2014', '4d1b9d12-fc2b-484e-ad61-853dd03e4762'),
+(3, '6c21e45b-12cc-4d6c-b837-c55c1ea87b5a', 10, 10, 10, 'Flat No:104,Celebrity', 'Cochin kerala', 0, '10-10-2014', '15-10-2014', '4d1b9d12-fc2b-484e-ad61-853dd03e4762');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_db`
+--
+
+CREATE TABLE `user_db` (
+  `userSegNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(40) NOT NULL,
+  `emailAddress` varchar(50) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `address` varchar(1024) NOT NULL,
+  `phoneNumber` varchar(50) NOT NULL,
+  `isEmailVerified` tinyint(1) NOT NULL DEFAULT '0',
+  `isPhoneVerified` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(256) NOT NULL,
+  PRIMARY KEY (`userSegNum`),
+  UNIQUE KEY `userId` (`userId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='User registration table' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `user_db`
+--
+
+INSERT INTO `user_db` (`userSegNum`, `userId`, `emailAddress`, `password`, `address`, `phoneNumber`, `isEmailVerified`, `isPhoneVerified`, `name`) VALUES
+(1, '4d1b9d12-fc2b-484e-ad61-853dd03e4762', 'anaschaky@gmail.com', '12345678', 'flat no 104, celebrity signature,electronic city phase 1, bangalore 560100', '7406667752', 0, 0, 'Anas Abubacker');

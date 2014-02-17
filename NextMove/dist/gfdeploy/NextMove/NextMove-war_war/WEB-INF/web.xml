@@ -12,6 +12,26 @@
         <servlet-name>doMove</servlet-name>
         <servlet-class>communicator.doMove</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getMyMoves</servlet-name>
+        <servlet-class>communicator.getMyMoves</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doAcknowledgeMove</servlet-name>
+        <servlet-class>communicator.doAcknowledgeMove</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doAccRejMoveDeal</servlet-name>
+        <servlet-class>communicator.doAccRejMoveDeal</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateProfile</servlet-name>
+        <servlet-class>communicator.updateProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getMoves</servlet-name>
+        <servlet-class>communicator.getMoves</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>doSignIn</servlet-name>
         <url-pattern>/doSignIn</url-pattern>
@@ -23,6 +43,26 @@
     <servlet-mapping>
         <servlet-name>doMove</servlet-name>
         <url-pattern>/doMove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getMyMoves</servlet-name>
+        <url-pattern>/getMyMoves</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doAcknowledgeMove</servlet-name>
+        <url-pattern>/doAcknowledgeMove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doAccRejMoveDeal</servlet-name>
+        <url-pattern>/doAccRejMoveDeal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateProfile</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getMoves</servlet-name>
+        <url-pattern>/getMoves</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

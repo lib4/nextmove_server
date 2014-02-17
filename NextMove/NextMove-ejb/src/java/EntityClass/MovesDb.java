@@ -1,9 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package EntityClass;
 
 import java.io.Serializable;
@@ -22,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author anasabubacker
+ * @author aabuback
  */
 @Entity
 @Table(name = "moves_db")
@@ -39,7 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovesDb.findByIsBigItemsPresent", query = "SELECT m FROM MovesDb m WHERE m.isBigItemsPresent = :isBigItemsPresent"),
     @NamedQuery(name = "MovesDb.findByDispatchDate", query = "SELECT m FROM MovesDb m WHERE m.dispatchDate = :dispatchDate"),
     @NamedQuery(name = "MovesDb.findByExpectedReceiveDate", query = "SELECT m FROM MovesDb m WHERE m.expectedReceiveDate = :expectedReceiveDate"),
-    @NamedQuery(name = "MovesDb.findByUserId", query = "SELECT m FROM MovesDb m WHERE m.userId = :userId")})
+    @NamedQuery(name = "MovesDb.findByUserId", query = "SELECT m FROM MovesDb m WHERE m.userId = :userId"),
+    @NamedQuery(name = "MovesDb.findByMoveStatus", query = "SELECT m FROM MovesDb m WHERE m.moveStatus = :moveStatus"),
+    @NamedQuery(name = "MovesDb.findByPriceQuote", query = "SELECT m FROM MovesDb m WHERE m.priceQuote = :priceQuote"),
+    @NamedQuery(name = "MovesDb.findByConditions", query = "SELECT m FROM MovesDb m WHERE m.conditions = :conditions"),
+    @NamedQuery(name = "MovesDb.findByRejectReason", query = "SELECT m FROM MovesDb m WHERE m.rejectReason = :rejectReason")})
 public class MovesDb implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -89,6 +91,20 @@ public class MovesDb implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "userId")
     private String userId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "moveStatus")
+    private String moveStatus;
+    @Size(max = 20)
+    @Column(name = "priceQuote")
+    private String priceQuote;
+    @Size(max = 1024)
+    @Column(name = "conditions")
+    private String conditions;
+    @Size(max = 1024)
+    @Column(name = "rejectReason")
+    private String rejectReason;
 
     public MovesDb() {
     }
@@ -97,7 +113,7 @@ public class MovesDb implements Serializable {
         this.moveSeqNum = moveSeqNum;
     }
 
-    public MovesDb(Long moveSeqNum, String moveId, int smallBoxCount, int mediumBoxCount, int largeBoxCount, String sourceAddress, String destinationAddress, boolean isBigItemsPresent, String userId) {
+    public MovesDb(Long moveSeqNum, String moveId, int smallBoxCount, int mediumBoxCount, int largeBoxCount, String sourceAddress, String destinationAddress, boolean isBigItemsPresent, String userId, String moveStatus) {
         this.moveSeqNum = moveSeqNum;
         this.moveId = moveId;
         this.smallBoxCount = smallBoxCount;
@@ -107,6 +123,7 @@ public class MovesDb implements Serializable {
         this.destinationAddress = destinationAddress;
         this.isBigItemsPresent = isBigItemsPresent;
         this.userId = userId;
+        this.moveStatus = moveStatus;
     }
 
     public Long getMoveSeqNum() {
@@ -195,6 +212,38 @@ public class MovesDb implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getMoveStatus() {
+        return moveStatus;
+    }
+
+    public void setMoveStatus(String moveStatus) {
+        this.moveStatus = moveStatus;
+    }
+
+    public String getPriceQuote() {
+        return priceQuote;
+    }
+
+    public void setPriceQuote(String priceQuote) {
+        this.priceQuote = priceQuote;
+    }
+
+    public String getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
+    }
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
     }
 
     @Override

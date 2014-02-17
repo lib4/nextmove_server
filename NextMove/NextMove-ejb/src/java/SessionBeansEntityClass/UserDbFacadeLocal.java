@@ -34,5 +34,7 @@ public interface UserDbFacadeLocal {
     public boolean isEmailIdRegistered(String emailAddress);
 
     public UserDb getThisUser(String emailAddress, String password);
+
+    public UserDb getThisUserByUserId(String userId);
     
 }

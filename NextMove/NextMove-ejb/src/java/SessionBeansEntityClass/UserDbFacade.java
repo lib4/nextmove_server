@@ -32,13 +32,17 @@ public class UserDbFacade extends AbstractFacade<UserDb> implements UserDbFacade
     
     @Override
     public boolean isEmailIdRegistered(String emailAddress){
-        
+      
+      try{  
       Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE emailAddress='"+emailAddress+"'",UserDb.class);
       UserDb mUserDb = (UserDb) query.getSingleResult();
       if(mUserDb==null){
           return false;
       }else
           return true;
+      }catch(Exception e){
+          return false;
+      }
         
     }
     
@@ -48,6 +52,16 @@ public class UserDbFacade extends AbstractFacade<UserDb> implements UserDbFacade
     public UserDb getThisUser(String emailAddress,String password){
         
       Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE emailAddress='"+emailAddress+"' AND password = '"+password+"'",UserDb.class);
+      UserDb mUserDb = (UserDb) query.getSingleResult();
+      return  mUserDb;
+        
+    }
+    
+    
+    @Override
+    public UserDb getThisUserByUserId(String userId){
+        
+      Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE userId='"+userId+"'",UserDb.class);
       UserDb mUserDb = (UserDb) query.getSingleResult();
       return  mUserDb;
         

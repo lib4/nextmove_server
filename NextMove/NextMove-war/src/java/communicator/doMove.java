@@ -104,6 +104,13 @@ public class doMove extends HttpServlet {
             movesDb.setMediumBoxCount(mediumBoxCount);
             movesDb.setMoveId(moveId);
             movesDb.setUserId(userId);
+            movesDb.setMoveStatus(Constants.MOVE_STATUS_PENDING_QUOTE);
+             if(bigItemCount>0){
+                   movesDb.setIsBigItemsPresent(true);
+             }else{
+                   movesDb.setIsBigItemsPresent(false);
+             }
+            
             movesDbFacade.create(movesDb);
             
             
@@ -120,7 +127,7 @@ public class doMove extends HttpServlet {
                 
               
               
-                IOUtils.write(Base64.decode(baseg4), new FileOutputStream(new File(Constants.MOVE_IMAGE_FOLDER+"/"+moveId+".jpg")));
+                IOUtils.write(Base64.decode(baseg4), new FileOutputStream(new File(Constants.MOVE_IMAGE_FOLDER+moveId+".jpg")));
                 
                 BigitemsDb mBigitemsDb  =   new BigitemsDb();
                 mBigitemsDb.setBigItemId(UUID.randomUUID().toString());
@@ -128,7 +135,7 @@ public class doMove extends HttpServlet {
                 mBigitemsDb.setRequiresDisassembly(requiresDisassembly);
                 mBigitemsDb.setItemDescription(itemDescription);
                 mBigitemsDb.setItemName(itemName);
-                mBigitemsDb.setItemUrl(Constants.IMAGE_URL+Constants.MOVE_IMAGE_FOLDER+"/"+moveId+".jpg");
+                mBigitemsDb.setItemUrl(Constants.IMAGE_URL+"/"+moveId+".jpg");
                 mBigitemsDb.setMoveId(moveId);
                 
                 
@@ -136,9 +143,18 @@ public class doMove extends HttpServlet {
                 i++;
                 
             }
-            
-          
-            
+                
+                
+                outputObject     =   new JSONObject();
+                try {
+                    outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
+                    outputObject.put(Constants.JSON_MSG,Constants.JSON_GET_QUOTE);
+                } catch (JSONException ex1) {
+                    Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                
+                out.println(outputObject.toString());
+               
             
             
             

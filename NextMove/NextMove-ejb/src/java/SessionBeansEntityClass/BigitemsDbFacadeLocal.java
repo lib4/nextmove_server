@@ -30,5 +30,7 @@ public interface BigitemsDbFacadeLocal {
     List<BigitemsDb> findRange(int[] range);
 
     int count();
+
+    public List getBigItems(String moveId);
     
 }

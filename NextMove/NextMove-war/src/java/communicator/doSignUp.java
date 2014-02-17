@@ -67,6 +67,7 @@ public class doSignUp extends HttpServlet {
            
     
                 
+            
           
             String emailAddress         =   signUpRequestObject.getString(Constants.JSON_EMAIL_ADDRESS);
             String password             =   signUpRequestObject.getString(Constants.JSON_PASSWORD);//"123456789";
@@ -106,7 +107,7 @@ public class doSignUp extends HttpServlet {
                     Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
                 }
                 
-                out.print(outputObject.toString());
+                out.println(outputObject.toString());
             
             
         }catch (JSONException ex) {

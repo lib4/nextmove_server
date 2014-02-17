@@ -30,5 +30,11 @@ public interface MovesDbFacadeLocal {
     List<MovesDb> findRange(int[] range);
 
     int count();
+
+    public List getMyMoves(String userId, String moveStatus);
+
+    public MovesDb getMove(String moveId);
+
+    public List getMovesByFilter(String moveStatus, String sourceAddress, String destinationAddress);
     
 }
