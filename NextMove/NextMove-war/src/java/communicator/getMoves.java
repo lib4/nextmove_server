@@ -76,11 +76,11 @@ public class getMoves extends HttpServlet {
             
             
             
-            String userId                 =   getMovesRequestObject.getString(Constants.JSON_USER_ID);
+            String userId                    =   getMovesRequestObject.getString(Constants.JSON_USER_ID);
             
             //Need to check whether this user is admin or not.
-            String moveStatus             =   getMovesRequestObject.getString(Constants.JSON_MOVE_STATUS);//"123456789";
-            String sourceAddressFilter    =   getMovesRequestObject.getString(Constants.JSON_SOURCE_ADDRESS_FILTER);
+            String moveStatus                =   getMovesRequestObject.getString(Constants.JSON_MOVE_STATUS);//"123456789";
+            String sourceAddressFilter       =   getMovesRequestObject.getString(Constants.JSON_SOURCE_ADDRESS_FILTER);
             String destinationAddressFilter  =   getMovesRequestObject.getString(Constants.JSON_DESTINATION_ADDRESS_FILTER);
             
             

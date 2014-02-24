@@ -50,10 +50,14 @@ public class UserDbFacade extends AbstractFacade<UserDb> implements UserDbFacade
     
     @Override
     public UserDb getThisUser(String emailAddress,String password){
-        
+       
+     try{
       Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE emailAddress='"+emailAddress+"' AND password = '"+password+"'",UserDb.class);
       UserDb mUserDb = (UserDb) query.getSingleResult();
       return  mUserDb;
+      }catch(Exception e){
+            return null;
+     }
         
     }
     
@@ -61,9 +65,13 @@ public class UserDbFacade extends AbstractFacade<UserDb> implements UserDbFacade
     @Override
     public UserDb getThisUserByUserId(String userId){
         
-      Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE userId='"+userId+"'",UserDb.class);
+     try{
+       Query query   =     em.createNativeQuery("SELECT * FROM user_db  WHERE userId='"+userId+"'",UserDb.class);
       UserDb mUserDb = (UserDb) query.getSingleResult();
       return  mUserDb;
+     }catch(Exception e){
+         return null;
+     }
         
     }
 }

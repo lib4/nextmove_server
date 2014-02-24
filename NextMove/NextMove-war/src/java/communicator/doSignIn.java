@@ -94,13 +94,14 @@ public class doSignIn extends HttpServlet {
             }else{
                 
                 Gson gson = new Gson();
-                String json = gson.toJson(mUserDb);
+                //String json = gson.toJson(mUserDb);
                 
                 
                 try {
                     outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
                     outputObject.put(Constants.JSON_MSG,Constants.JSON_SUCCESS);
-                    outputObject.put(Constants.JSON_PROFILE, json);
+                    outputObject.put(Constants.JSON_PROFILE, new JSONObject(gson.toJson(mUserDb)));
+                    
                     out.println(outputObject);
                     out.close();
                     return;

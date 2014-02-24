@@ -8,6 +8,7 @@ package communicator;
 
 import EntityClass.UserDb;
 import SessionBeansEntityClass.UserDbFacadeLocal;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
@@ -99,10 +100,14 @@ public class doSignUp extends HttpServlet {
             new_user.setIsPhoneVerified(false);
             userDbFacade.create(new_user);
             
+            
+             UserDb mUserDb  =   userDbFacade.getThisUser(emailAddress, password);
            
                 try {
+                    Gson gson = new Gson();
                     outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
                     outputObject.put(Constants.JSON_MSG,Constants.JSON_SUCCESS);
+                    outputObject.put(Constants.JSON_PROFILE, new JSONObject(gson.toJson(mUserDb)));
                 } catch (JSONException ex1) {
                     Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
                 }

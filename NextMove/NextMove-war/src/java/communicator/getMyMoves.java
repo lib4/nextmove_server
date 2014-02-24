@@ -109,7 +109,7 @@ public class getMyMoves extends HttpServlet {
             Gson gson = new Gson();
             while(mIterator.hasNext()){
                 MovesDb movesDb =   (MovesDb) mIterator.next();
-                 JSONObject mJSONObject =   new JSONObject(gson.toJson(movesDb));
+                 JSONObject mJSONObject =   new JSONObject(gson.toJson(movesDb).toString());
                 
                 if(movesDb.getIsBigItemsPresent()){
                     
@@ -130,12 +130,12 @@ public class getMyMoves extends HttpServlet {
                 try {
                     outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
                     outputObject.put(Constants.JSON_MSG,Constants.JSON_SUCCESS);
-                    outputObject.put(Constants.JSON_RESPONSE,moves.toString());
+                    outputObject.put(Constants.JSON_RESPONSE,moves);
                 } catch (JSONException ex1) {
                     Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
                 }
                 
-                out.println(outputObject.toString());
+                out.println(outputObject);
             
             
             
