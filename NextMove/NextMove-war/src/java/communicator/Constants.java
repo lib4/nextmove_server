@@ -20,7 +20,7 @@ public class Constants {
     
     //public static final String MOVE_IMAGE_FOLDER      =   "/Applications/NetBeans/glassfish-4.0/glassfish/domains/domain1/docroot/move_image/";
     public static final String MOVE_IMAGE_FOLDER        =    "C:\\Program Files\\glassfish-4.0\\glassfish\\domains\\domain1\\docroot\\move_images\\";
-    public static final String IMAGE_URL                =    "http://localhost:8080/move_image/";
+    public static final String IMAGE_URL                =    "http://10.76.72.16:8080/move_images/";
     
             
     public static final String MOVE_STATUS_PENDING_QUOTE              =   "PENDING QUOTE";//

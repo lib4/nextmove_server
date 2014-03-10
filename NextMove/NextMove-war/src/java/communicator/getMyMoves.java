@@ -95,7 +95,7 @@ public class getMyMoves extends HttpServlet {
                 } catch (JSONException ex1) {
                     Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
                 }
-                
+                     System.out.println("no Moves RESPONSE "+outputObject);
                 out.println(outputObject.toString());
                 return;
                 
@@ -125,7 +125,7 @@ public class getMyMoves extends HttpServlet {
                 
             }
             
-            System.out.println("Moves DB"+moves.toString());
+            
             outputObject     =   new JSONObject();
                 try {
                     outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
@@ -135,6 +135,7 @@ public class getMyMoves extends HttpServlet {
                     Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
                 }
                 
+                System.out.println("Moves RESPONSE "+outputObject);
                 out.println(outputObject);
             
             

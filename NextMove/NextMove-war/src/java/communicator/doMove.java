@@ -10,19 +10,28 @@ import EntityClass.BigitemsDb;
 import EntityClass.MovesDb;
 import SessionBeansEntityClass.BigitemsDbFacadeLocal;
 import SessionBeansEntityClass.MovesDbFacadeLocal;
+import com.google.common.collect.HashBiMap;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.mail.Folder;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,10 +64,85 @@ public class doMove extends HttpServlet {
         JSONObject outputObject     =   new JSONObject();
         try  {
  
-             
+            HashMap<String,String> bigItemIds   =   new HashMap<>();
+            Iterator mIterator  =   bigItemIds.keySet().iterator();
             out = response.getWriter();
-            JSONObject  moveRequestObject     =   new JSONObject( IOUtils.toString(request.getInputStream()));
-            moveRequestObject                 =   moveRequestObject.getJSONObject(Constants.JSON_MOVE_KEY);
+            // Create a factory for disk-based file items
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+
+            // Configure a repository (to ensure a secure temp location is used)
+            ServletContext servletContext = this.getServletConfig().getServletContext();
+            File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+            factory.setRepository(repository);
+
+            // Create a new file upload handler
+            ServletFileUpload upload = new ServletFileUpload(factory);
+             // Parse the request
+             List<FileItem> items = upload.parseRequest(request);
+                
+                
+             // Process the uploaded items
+            Iterator<FileItem> iter = items.iterator();
+            while (iter.hasNext()) {
+                FileItem item = iter.next();
+
+                if (item.isFormField()) {
+                    
+                    System.out.println("Form field" +item.getString());
+                    
+                   bigItemIds   =   processFormField(new JSONObject( item.getString()), out);
+                   mIterator  =   bigItemIds.keySet().iterator();
+                   System.out.println("ITEM ID SIZE "+bigItemIds.size());
+                 
+                } else {
+                    //processUploadedFile(item);
+                    System.out.print("Photo Field");
+                    String key  =   (String) mIterator.next();
+                    File mFile  =   new File(bigItemIds.get(key));
+                    item.write(mFile);
+                    
+                  
+                    
+                    
+                }
+            }
+                outputObject     =   new JSONObject();
+                try {
+                    outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
+                    outputObject.put(Constants.JSON_MSG,Constants.JSON_GET_QUOTE);
+                } catch (JSONException ex1) {
+                    Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                
+                out.println(outputObject.toString());
+               
+            
+            
+            
+        }catch(Exception ex){
+            
+            outputObject     =   new JSONObject();
+                try {
+                    outputObject.put(Constants.JSON_STATUS, Constants.JSON_FAILURE);
+                    outputObject.put(Constants.JSON_MSG,Constants.JSON_EXCEPTION);
+                } catch (JSONException ex1) {
+                    Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                
+                out.println(outputObject.toString());
+                Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            out.close();
+        }
+    }
+        
+    
+    
+    private HashMap<String,String> processFormField(JSONObject  moveRequestObject, PrintWriter out){
+            
+       HashMap<String,String> bigItemIds =   new HashMap<>();
+        try{
+             moveRequestObject                 =   moveRequestObject.getJSONObject(Constants.JSON_MOVE_KEY);
                
             
            System.out.println(moveRequestObject.toString());
@@ -75,7 +159,7 @@ public class doMove extends HttpServlet {
                 System.out.println("IF LOOP");
                 out.println(mJSONObjec);
                 out.close();
-                return;
+                return null;
             }
             
             
@@ -113,7 +197,11 @@ public class doMove extends HttpServlet {
             
             movesDbFacade.create(movesDb);
             
-            
+            if(bigItemCount>0){
+                
+                File mFile  =   new File(Constants.MOVE_IMAGE_FOLDER+moveId);
+                mFile.mkdir();
+            }
             int i =0;
             while(i<bigItemCount){
                 
@@ -122,20 +210,24 @@ public class doMove extends HttpServlet {
                 boolean fitInElevator     =   mJSONObject.getBoolean(Constants.JSON_DOES_FIT_IN_ELEVATOR);
                 String itemName     =   mJSONObject.getString(Constants.JSON_ITEM_NAME);
                 String itemDescription  =   mJSONObject.getString(Constants.JSON_ITEM_DESCRIPTION);
-                String baseg4           =   mJSONObject.getString(Constants.JSON_IMAGE);
+              //  String baseg4           =   mJSONObject.getString(Constants.JSON_IMAGE);
                 
                 
               
-              
-                IOUtils.write(Base64.decode(baseg4), new FileOutputStream(new File(Constants.MOVE_IMAGE_FOLDER+moveId+".jpg")));
+                String bigItemId    =   UUID.randomUUID().toString();
+                //IOUtils.write(Base64.decode(baseg4), new FileOutputStream(new File(Constants.MOVE_IMAGE_FOLDER+moveId+"\\"+bigItemId+".jpg")));
+                
+                bigItemIds.put(bigItemId, Constants.MOVE_IMAGE_FOLDER+moveId+"\\"+bigItemId+".jpg");
+                
+                
                 
                 BigitemsDb mBigitemsDb  =   new BigitemsDb();
-                mBigitemsDb.setBigItemId(UUID.randomUUID().toString());
+                mBigitemsDb.setBigItemId(bigItemId);
                 mBigitemsDb.setDoesFitInElevator(fitInElevator);
                 mBigitemsDb.setRequiresDisassembly(requiresDisassembly);
                 mBigitemsDb.setItemDescription(itemDescription);
                 mBigitemsDb.setItemName(itemName);
-                mBigitemsDb.setItemUrl(Constants.IMAGE_URL+"/"+moveId+".jpg");
+                mBigitemsDb.setItemUrl(Constants.IMAGE_URL+"/"+moveId+"/"+bigItemId+".jpg");
                 mBigitemsDb.setMoveId(moveId);
                 
                 
@@ -143,36 +235,11 @@ public class doMove extends HttpServlet {
                 i++;
                 
             }
-                
-                
-                outputObject     =   new JSONObject();
-                try {
-                    outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
-                    outputObject.put(Constants.JSON_MSG,Constants.JSON_GET_QUOTE);
-                } catch (JSONException ex1) {
-                    Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-                
-                out.println(outputObject.toString());
-               
-            
-            
-            
-        }catch(JSONException ex){
-            
-            outputObject     =   new JSONObject();
-                try {
-                    outputObject.put(Constants.JSON_STATUS, Constants.JSON_FAILURE);
-                    outputObject.put(Constants.JSON_MSG,Constants.JSON_EXCEPTION);
-                } catch (JSONException ex1) {
-                    Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-                
-                out.println(outputObject.toString());
-                Logger.getLogger(doSignUp.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            out.close();
+        }catch(Exception e){
+            e.printStackTrace();
         }
+            return bigItemIds;    
+                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

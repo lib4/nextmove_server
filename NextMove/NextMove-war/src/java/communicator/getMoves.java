@@ -121,6 +121,7 @@ public class getMoves extends HttpServlet {
                     List<BigitemsDb> mBigitemsDbs   =   bigitemsDbFacade.getBigItems(movesDb.getMoveId());
                     
                     mJSONObject.put("bigItems",mBigitemsDbs);
+                 
                     
                 }
                 

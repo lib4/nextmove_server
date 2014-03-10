@@ -32,6 +32,18 @@
         <servlet-name>getMoves</servlet-name>
         <servlet-class>communicator.getMoves</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadBigItemImages</servlet-name>
+        <servlet-class>communicator.uploadBigItemImages</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doMoverSignup</servlet-name>
+        <servlet-class>communicator.doMoverSignup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>mailService</servlet-name>
+        <servlet-class>communicator.mailService</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>doSignIn</servlet-name>
         <url-pattern>/doSignIn</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>getMoves</servlet-name>
         <url-pattern>/getMoves</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadBigItemImages</servlet-name>
+        <url-pattern>/uploadBigItemImages</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doMoverSignup</servlet-name>
+        <url-pattern>/doMoverSignup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mailService</servlet-name>
+        <url-pattern>/mailService</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
