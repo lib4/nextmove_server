@@ -19,6 +19,23 @@ import javax.activation.*;
 public class SendMail {
     
     
+    public static String MOVE_MAIL_TEMPLATE_HEAD    =   "<html>\n" +
+"    <head>\n" +
+"        <title></title>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+            "<style>table,th,td{border:1px solid black;border-collapse:collapse;}</style>"+
+"    </head>\n" +
+"    <body>\n" +
+"        <h3 style=\"color:#40B3DF;\">Dear Vendor</h3>\n" +
+"        <P>You have new quote request and here is the Move details:- </P>\n"+
+            "<table style=\"width:300px\">\n";
+
+   
+
+    
+    
+    
+       public static String MOVE_MAIL_TEMPLATE_END   =   " </table>\n</body>\n</html>\n" ;
     public static void SendMail(){
         
         
@@ -33,7 +50,7 @@ public class SendMail {
       String to = "anaschaky@gmail.com";
 
       // Sender's email ID needs to be mentioned
-      String from = "web@gmail.com";
+      String from = "anaschaky@gmail.com";
 
       // Assuming you are sending email from localhost
       String host = "smtp.gmail.com";
@@ -46,6 +63,25 @@ public class SendMail {
     properties.put("mail.smtp.port", "465");
       
 
+     String table;
+         
+          
+              table =   "<tr><td>Small Box</td><td>10</td></tr>"+
+                     "<tr><td>Medium Box</td><td>10</td></tr>"+
+                     "<tr><td>Large Box</td><td>10</td></tr>"+
+                      "<tr><td>Item Wont Fit In Box</td><td>10</td></tr>"+
+                     "<tr><td>Item Wont Fit In Elevator</td><td>10</td></tr>"+
+                     "<tr><td>Item Requires Disassembly</td><td>10</td></tr>"+
+                     
+                     "<tr><td>From Address</td><td>Bangalore Karnataka, India.</td></tr>"+
+                     "<tr><td>To Address</td><td>Salem Tamil Nadu, India.</td></tr>";
+                     
+    
+    
+        System.out.println("Mail Content "+MOVE_MAIL_TEMPLATE_HEAD+table+MOVE_MAIL_TEMPLATE_END);
+    
+    
+    
       // Get the default Session object.
       Session session = Session.getDefaultInstance(properties,
 		  new javax.mail.Authenticator() {
@@ -69,9 +105,14 @@ public class SendMail {
 
          // Set Subject: header field
          message.setSubject("This is the Subject Line!");
-
-         // Send the actual HTML message, as big as you like
-         message.setContent("<h1>This is actual message</h1>",
+         int i=0;
+          
+             
+             
+             
+        
+          // Send the actual HTML message, as big as you like
+         message.setContent(MOVE_MAIL_TEMPLATE_HEAD+table+MOVE_MAIL_TEMPLATE_END,
                             "text/html" );
 
          // Send message

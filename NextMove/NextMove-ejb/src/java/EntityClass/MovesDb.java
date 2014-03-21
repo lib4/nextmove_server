@@ -41,7 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovesDb.findByMoveStatus", query = "SELECT m FROM MovesDb m WHERE m.moveStatus = :moveStatus"),
     @NamedQuery(name = "MovesDb.findByPriceQuote", query = "SELECT m FROM MovesDb m WHERE m.priceQuote = :priceQuote"),
     @NamedQuery(name = "MovesDb.findByConditions", query = "SELECT m FROM MovesDb m WHERE m.conditions = :conditions"),
-    @NamedQuery(name = "MovesDb.findByRejectReason", query = "SELECT m FROM MovesDb m WHERE m.rejectReason = :rejectReason")})
+    @NamedQuery(name = "MovesDb.findByRejectReason", query = "SELECT m FROM MovesDb m WHERE m.rejectReason = :rejectReason"),
+    @NamedQuery(name = "MovesDb.findByItemsWontFitInBox", query = "SELECT m FROM MovesDb m WHERE m.itemsWontFitInBox = :itemsWontFitInBox"),
+    @NamedQuery(name = "MovesDb.findByItemsWontFitInElevator", query = "SELECT m FROM MovesDb m WHERE m.itemsWontFitInElevator = :itemsWontFitInElevator"),
+    @NamedQuery(name = "MovesDb.findByItemsNeedDisassembly", query = "SELECT m FROM MovesDb m WHERE m.itemsNeedDisassembly = :itemsNeedDisassembly")})
 public class MovesDb implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,6 +108,18 @@ public class MovesDb implements Serializable {
     @Size(max = 1024)
     @Column(name = "rejectReason")
     private String rejectReason;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "itemsWontFitInBox")
+    private int itemsWontFitInBox;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "itemsWontFitInElevator")
+    private int itemsWontFitInElevator;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "itemsNeedDisassembly")
+    private int itemsNeedDisassembly;
 
     public MovesDb() {
     }
@@ -113,7 +128,7 @@ public class MovesDb implements Serializable {
         this.moveSeqNum = moveSeqNum;
     }
 
-    public MovesDb(Long moveSeqNum, String moveId, int smallBoxCount, int mediumBoxCount, int largeBoxCount, String sourceAddress, String destinationAddress, boolean isBigItemsPresent, String userId, String moveStatus) {
+    public MovesDb(Long moveSeqNum, String moveId, int smallBoxCount, int mediumBoxCount, int largeBoxCount, String sourceAddress, String destinationAddress, boolean isBigItemsPresent, String userId, String moveStatus, int itemsWontFitInBox, int itemsWontFitInElevator, int itemsNeedDisassembly) {
         this.moveSeqNum = moveSeqNum;
         this.moveId = moveId;
         this.smallBoxCount = smallBoxCount;
@@ -124,6 +139,9 @@ public class MovesDb implements Serializable {
         this.isBigItemsPresent = isBigItemsPresent;
         this.userId = userId;
         this.moveStatus = moveStatus;
+        this.itemsWontFitInBox = itemsWontFitInBox;
+        this.itemsWontFitInElevator = itemsWontFitInElevator;
+        this.itemsNeedDisassembly = itemsNeedDisassembly;
     }
 
     public Long getMoveSeqNum() {
@@ -244,6 +262,30 @@ public class MovesDb implements Serializable {
 
     public void setRejectReason(String rejectReason) {
         this.rejectReason = rejectReason;
+    }
+
+    public int getItemsWontFitInBox() {
+        return itemsWontFitInBox;
+    }
+
+    public void setItemsWontFitInBox(int itemsWontFitInBox) {
+        this.itemsWontFitInBox = itemsWontFitInBox;
+    }
+
+    public int getItemsWontFitInElevator() {
+        return itemsWontFitInElevator;
+    }
+
+    public void setItemsWontFitInElevator(int itemsWontFitInElevator) {
+        this.itemsWontFitInElevator = itemsWontFitInElevator;
+    }
+
+    public int getItemsNeedDisassembly() {
+        return itemsNeedDisassembly;
+    }
+
+    public void setItemsNeedDisassembly(int itemsNeedDisassembly) {
+        this.itemsNeedDisassembly = itemsNeedDisassembly;
     }
 
     @Override

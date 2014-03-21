@@ -93,4 +93,28 @@
             30
         </session-timeout>
     </session-config>
+    <ejb-local-ref>
+        <ejb-ref-name>MoversDbFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>SessionBeansEntityClass.MoversDbFacadeLocal</local>
+        <ejb-link>NextMove-ejb.jar#MoversDbFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>MoversDbFacade1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>SessionBeansEntityClass.MoversDbFacadeLocal</local>
+        <ejb-link>NextMove-ejb.jar#MoversDbFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>MailsQueueDbFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>SessionBeansEntityClass.MailsQueueDbFacadeLocal</local>
+        <ejb-link>NextMove-ejb.jar#MailsQueueDbFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>MovesDbFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>SessionBeansEntityClass.MovesDbFacadeLocal</local>
+        <ejb-link>NextMove-ejb.jar#MovesDbFacade</ejb-link>
+    </ejb-local-ref>
 </web-app>

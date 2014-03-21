@@ -36,8 +36,9 @@ public class mailService extends HttpServlet {
             new Thread(){
                 
                 public void run(){
-                     SendMail mail   =   new SendMail();
-                    mail.SendMail();
+                        SendMail mail   =   new SendMail();
+                        
+                        mail.SendMail();
                 }
             
         }.start();

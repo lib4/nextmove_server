@@ -80,7 +80,8 @@ public class doMove extends HttpServlet {
              // Parse the request
              List<FileItem> items = upload.parseRequest(request);
                 
-                
+             final String moveId               =   UUID.randomUUID().toString();
+             final MovesDb movesDb             =   new MovesDb();
              // Process the uploaded items
             Iterator<FileItem> iter = items.iterator();
             while (iter.hasNext()) {
@@ -90,7 +91,7 @@ public class doMove extends HttpServlet {
                     
                     System.out.println("Form field" +item.getString());
                     
-                   bigItemIds   =   processFormField(new JSONObject( item.getString()), out);
+                   bigItemIds   =   processFormField(new JSONObject( item.getString()), out,moveId,movesDb);
                    mIterator  =   bigItemIds.keySet().iterator();
                    System.out.println("ITEM ID SIZE "+bigItemIds.size());
                  
@@ -106,6 +107,13 @@ public class doMove extends HttpServlet {
                     
                 }
             }
+                new Thread(){
+                    
+                    public void run(){
+                        pushMovetoMailQueue moveToMailQueue=    new pushMovetoMailQueue();
+                        moveToMailQueue.pushMoveToMailQueue(movesDb);
+                    }
+                }.start();
                 outputObject     =   new JSONObject();
                 try {
                     outputObject.put(Constants.JSON_STATUS, Constants.JSON_SUCCESS);
@@ -138,7 +146,7 @@ public class doMove extends HttpServlet {
         
     
     
-    private HashMap<String,String> processFormField(JSONObject  moveRequestObject, PrintWriter out){
+    private HashMap<String,String> processFormField(JSONObject  moveRequestObject, PrintWriter out,String moveId,MovesDb movesDb){
             
        HashMap<String,String> bigItemIds =   new HashMap<>();
         try{
@@ -176,9 +184,9 @@ public class doMove extends HttpServlet {
             JSONArray bigItems           =   moveRequestObject.getJSONArray(Constants.JSON_BIG_ITEM);
             int bigItemCount             =  bigItems.length();
             
-            String moveId               =   UUID.randomUUID().toString();
+           
             
-            MovesDb movesDb             =   new MovesDb();
+        
             movesDb.setSourceAddress(sourceAddress);
             movesDb.setDestinationAddress(destinationAddress);
             movesDb.setDispatchDate(dispatchDate);
@@ -195,7 +203,9 @@ public class doMove extends HttpServlet {
                    movesDb.setIsBigItemsPresent(false);
              }
             
-            movesDbFacade.create(movesDb);
+             int itemsWontFitInABox =   0;
+             int itemsWontFitInElevator =   0;
+             int itemsNeedDisassembly =   0;
             
             if(bigItemCount>0){
                 
@@ -204,10 +214,17 @@ public class doMove extends HttpServlet {
             }
             int i =0;
             while(i<bigItemCount){
+                itemsWontFitInABox++;
                 
                 JSONObject mJSONObject  =   bigItems.getJSONObject(i);
                 boolean requiresDisassembly     =   mJSONObject.getBoolean(Constants.JSON_REQUIRES_DISAASSEMBLY);
+                if(requiresDisassembly)
+                    itemsNeedDisassembly++;
+                
                 boolean fitInElevator     =   mJSONObject.getBoolean(Constants.JSON_DOES_FIT_IN_ELEVATOR);
+                if(fitInElevator)
+                    itemsWontFitInElevator++;
+                
                 String itemName     =   mJSONObject.getString(Constants.JSON_ITEM_NAME);
                 String itemDescription  =   mJSONObject.getString(Constants.JSON_ITEM_DESCRIPTION);
               //  String baseg4           =   mJSONObject.getString(Constants.JSON_IMAGE);
@@ -235,6 +252,10 @@ public class doMove extends HttpServlet {
                 i++;
                 
             }
+             movesDb.setItemsWontFitInBox(itemsWontFitInABox);
+             movesDb.setItemsWontFitInElevator(itemsWontFitInElevator);
+             movesDb.setItemsNeedDisassembly(itemsNeedDisassembly);
+             movesDbFacade.create(movesDb);
         }catch(Exception e){
             e.printStackTrace();
         }
